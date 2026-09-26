@@ -1,7 +1,11 @@
-#include <iostream>
+#include "main_window.hpp"
 
-int main() {
+#include <QApplication>
 
-
-    return 0;
+int main(int argc, char* argv[]) {
+    QApplication app(argc, argv);
+    MainWindow window{};
+    window.show();
+ 
+    return app.exec();
 }
