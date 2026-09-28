@@ -1,5 +1,7 @@
-#ifndef __MEMORY_X_HPP__
-#define __MEMORY_X_HPP__
+#ifndef __AUDACITY_MEMORY_X_HPP__
+#define __AUDACITY_MEMORY_X_HPP__
+
+#include "utility_api.hpp"
 
 #include <memory>
 #include <new>
@@ -72,11 +74,10 @@ public:
 };
 
 /**
-  A deleter for pointers obtained with malloc
+ * A deleter for pointers obtained with malloc
  */
 struct freer {
-    void operator()(void* p) const
-    {
+    void operator()(void* p) const {
         free(p);
     }
 };
@@ -88,20 +89,19 @@ template< typename T >
 using MallocPtr = std::unique_ptr< T, freer >;
 
 /**
-  A useful alias for holding the result of strup and similar
+ * A useful alias for holding the result of strup and similar
  */
 template<typename Character = char>
 using MallocString = std::unique_ptr< Character[], freer >;
 
 /**
-  \brief A deleter class to supply the second template parameter of unique_ptr for
-  classes like wxWindow that should be sent a message called Destroy rather
-  than be deleted directly
+ * \brief A deleter class to supply the second template parameter of unique_ptr for
+ * classes like wxWindow that should be sent a message called Destroy rather
+ * than be deleted directly
  */
 template<typename T>
 struct Destroyer {
-    void operator ()(T* p) const
-    {
+    void operator ()(T* p) const {
         if (p) {
             p->Destroy();
         }
@@ -109,19 +109,19 @@ struct Destroyer {
 };
 
 /**
-  \brief a convenience for using Destroyer
+ * \brief a convenience for using Destroyer
  */
 template<typename T>
 using Destroy_ptr = std::unique_ptr<T, Destroyer<T> >;
 
 /**
-  \brief "finally" as in The C++ Programming Language, 4th ed., p. 358
-  Useful for defining ad-hoc RAII actions.
-  typical usage:
-  auto cleanup = finally([&]{ ... code; ... });
+ *\brief "finally" as in The C++ Programming Language, 4th ed., p. 358
+ *Useful for defining ad-hoc RAII actions.
+ *typical usage:
+ *auto cleanup = finally([&]{ ... code; ... });
  */
 
-// Construct this from any copyable function object, such as a lambda
+/** Construct this from any copyable function object, such as a lambda. */
 template<typename F>
 struct Finally {
     Finally(F f)
@@ -133,29 +133,27 @@ struct Finally {
 /// \brief Function template with type deduction lets you construct Finally
 /// without typing any angle brackets
 template<typename F>
-[[nodiscard]] Finally<F> finally(F f)
-{
+[[nodiscard]] Finally<F> finally(F f) {
     return Finally<F>(f);
 }
 
 //! C++17 deduction guide allows even simpler syntax:
 //! `Finally Do{[&]{ Stuff(); }};`
 /*!
- Don't omit `Do` or some other variable name!  Otherwise, the execution of the
- body is immediate, not delayed to the end of the enclosing scope.
+ * Don't omit `Do` or some other variable name!  Otherwise, the execution of the
+ * body is immediate, not delayed to the end of the enclosing scope.
  */
 template<typename F> Finally(F)->Finally<F>;
 
 #include <algorithm>
 
 /**
-  \brief Structure used by ValueRestorer
+ * \brief Structure used by ValueRestorer
  */
-template< typename T >
+template<typename T>
 struct RestoreValue {
     T oldValue;
-    void operator ()(T* p) const
-    {
+    void operator ()(T* p) const {
         if (p) {
             *p = oldValue;
         }
@@ -163,42 +161,38 @@ struct RestoreValue {
 };
 
 /**
-  \brief Set a variable temporarily in a scope
-  */
-template< typename T >
-class ValueRestorer : public std::unique_ptr< T, RestoreValue<T> >
-{
-    using std::unique_ptr< T, RestoreValue<T> >::reset; // make private
-    // But release() remains public and can be useful to commit a changed value
+ * \brief Set a variable temporarily in a scope
+ */
+template<typename T>
+class ValueRestorer : public std::unique_ptr<T, RestoreValue<T>> {
+    /** Make private. */
+    using std::unique_ptr<T, RestoreValue<T>>::reset;
+    /** But release() remains public and can be useful to commit a changed value. */
 public:
     explicit ValueRestorer(T& var)
-        : std::unique_ptr< T, RestoreValue<T> >(&var, { var })
-    {}
+        : std::unique_ptr<T, RestoreValue<T>>(&var, { var }) {}
     explicit ValueRestorer(T& var, const T& newValue)
-        : std::unique_ptr< T, RestoreValue<T> >(&var, { var })
-    { var = newValue; }
+        : std::unique_ptr<T, RestoreValue<T>>(&var, { var }) { var = newValue; }
     ValueRestorer(ValueRestorer&& that)
-        : std::unique_ptr < T, RestoreValue<T> >(std::move(that)) {}
-    ValueRestorer& operator=(ValueRestorer&& that)
-    {
+        : std::unique_ptr <T, RestoreValue<T>>(std::move(that)) {}
+    ValueRestorer& operator=(ValueRestorer&& that) {
         if (this != &that) {
-            std::unique_ptr < T, RestoreValue<T> >::operator=(std::move(that));
+            std::unique_ptr <T, RestoreValue<T>>::operator=(std::move(that));
         }
+
         return *this;
     }
 };
 
 /*!
- Like ValueRestorer but copy-constructible
+ * Like ValueRestorer but copy-constructible
  */
-template< typename T >
+template<typename T>
 struct CopyableValueRestorer {
     explicit CopyableValueRestorer(T& var)
-        : pointer{&var, RestoreValue<T> { var }}
-    {}
+        : pointer{&var, RestoreValue<T> { var }} {}
     CopyableValueRestorer(T& var, const T& newValue)
-        : pointer{&var, RestoreValue<T> { var }}
-    {
+        : pointer{&var, RestoreValue<T> { var }} {
         var = newValue;
     }
 
@@ -216,81 +210,66 @@ ValueRestorer< T > valueRestorer(T& var, const T& newValue)
 
 //! Non-template helper for class template NonInterfering
 /*!
- If a structure contains any members with large alignment, this base class may also allow it to work in
- macOS builds under current limitations of the C++17 standard implementation.
+ * If a structure contains any members with large alignment, this base class may also allow it to work in
+ * macOS builds under current limitations of the C++17 standard implementation.
  */
-// struct UTILITY_API alignas(
-// #if defined(_WIN32) && defined(_MSC_VER)
-//     // MSVC supports this symbol in std, but MinGW uses libstdc++, which it does not.
-//     std::hardware_destructive_interference_size
-// #else
-//     // That constant isn't defined for the other builds yet
-//     64 /* ? */
-// #endif
-//     )
-
-// NonInterferingBase {
-//     static void* operator new(std::size_t count, std::align_val_t al);
-//     static void operator delete(void* ptr, std::align_val_t al);
-
-// #if defined (_MSC_VER) && defined(_DEBUG)
-//     // Versions that work in the presence of the DEBUG_NEW macro.
-//     // Ignore the arguments supplied by the macro and forward to the
-//     // other overloads.
-//     static void* operator new(
-//         std::size_t count, std::align_val_t al, int, const char*, int)
-//     { return operator new(count, al); }
-//     static void operator delete(
-//         void* ptr, std::align_val_t al, int, const char*, int)
-//     { return operator delete(ptr, al); }
-// #endif
-// };
-
-//! Workaround for std::make_shared not working on macOs with over-alignment
-/*!
- Defines a static member function to use as an alternative to that in std::
- */
-template<typename T> // CRTP
-struct SharedNonInterfering : NonInterferingBase
-{
-    template<typename ... Args>
-    static std::shared_ptr<T> make_shared(Args&&... args)
-    {
-        return std::
-#ifdef __APPLE__
-               // shared_ptr must be constructed from unique_ptr on Mac
-               make_unique
-#else
-               make_shared
+struct UTILITY_API alignas(
+#if defined(_WIN32) && defined(_MSC_VER)
+    /** MSVC supports this symbol in std, but MinGW uses libstdc++, which it does not. */
+    std::hardware_destructive_interference_size
 #endif
-               <T>(std::forward<Args>(args)...);
+    )
+
+NonInterferingBase {
+    static void* operator new(std::size_t count, std::align_val_t al);
+    static void operator delete(void* ptr, std::align_val_t al);
+
+#if defined (_MSC_VER) && defined(_DEBUG)
+    /** Versions that work in the presence of the DEBUG_NEW macro.
+     * Ignore the arguments supplied by the macro and forward to the
+     * other overloads.
+     */
+    static void* operator new(std::size_t count, std::align_val_t al, int, const char*, int)
+    { return operator new(count, al); }
+    static void operator delete(void* ptr, std::align_val_t al, int, const char*, int)
+    { return operator delete(ptr, al); }
+#endif
+};
+
+/**! Workaround for std::make_shared not working on macOs with over-alignment. */
+/*!
+ * Defines a static member function to use as an alternative to that in std::
+ * CRTP
+ */
+template<typename T>
+struct SharedNonInterfering : NonInterferingBase {
+    template<typename ... Args>
+    static std::shared_ptr<T> make_shared(Args&&... args) {
+        return std::make_shared<T>(std::forward<Args>(args)...);
     }
 };
 
 /*! Given a structure type T, derive a structure with sufficient padding so that there is not false sharing of
- cache lines between successive elements of an array of those structures.
+ * cache lines between successive elements of an array of those structures.
  */
-template< typename T > struct NonInterfering : NonInterferingBase, // Inherit operators; use empty base class optimization
-                                               T
-{
+/** Inherit operators; use empty base class optimization. */
+template< typename T > struct NonInterfering : NonInterferingBase, T {
     using T::T;
 
     //! Allow assignment from default-aligned base type
-    void Set(const T& other)
-    {
+    void Set(const T& other) {
         T::operator =(other);
     }
 
     //! Allow assignment from default-aligned base type
-    void Set(T&& other)
-    {
+    void Set(T&& other) {
         T::operator =(std::move(other));
     }
 };
 
-// These macros are used widely, so declared here.
+/** These macros are used widely, so declared here. */
 #define QUANTIZED_TIME(time, rate) (floor(((double)(time) * (rate)) + 0.5) / (rate))
-// dB - linear amplitude conversions
+/** dB - linear amplitude conversions. */
 #define DB_TO_LINEAR(x) (pow(10.0, (x) / 20.0))
 #define LINEAR_TO_DB(x) (20.0 * log10(x))
 
@@ -304,16 +283,13 @@ struct AtomicUniquePointer : public std::atomic<T*> {
     using std::atomic<T*>::atomic;
     //! Reassign the pointer with release ordering,
     //! then destroy any previously held object
-    /*!
-     Like `std::unique_ptr`, does not check for reassignment of the same pointer */
-    void reset(T* p = nullptr)
-    {
+    /*! Like `std::unique_ptr`, does not check for reassignment of the same pointer */
+    void reset(T* p = nullptr) {
         delete this->exchange(p, std::memory_order_release);
     }
 
     //! reset to a pointer to a new object with given ctor arguments
-    template<typename ... Args> void emplace(Args&&... args)
-    {
+    template<typename ... Args> void emplace(Args&&... args) {
         reset(safenew T(std::forward<Args>(args)...));
     }
 
@@ -325,17 +301,15 @@ private:
 };
 
 //! Check that machine is little-endian
-inline bool IsLittleEndian() noexcept
-{
+inline bool IsLittleEndian() noexcept {
     const std::uint32_t x = 1u;
     return static_cast<const unsigned char*>(static_cast<const void*>(&x))[0];
-    // We will assume the same for other widths!
+    /** We will assume the same for other widths!. */
 }
 
 //! Swap bytes in an integer
 template<typename IntType>
-constexpr IntType SwapIntBytes(IntType value) noexcept
-{
+constexpr IntType SwapIntBytes(IntType value) noexcept {
     static_assert(std::is_integral<IntType>::value, "Integral type required");
 
     constexpr auto size = sizeof(IntType);
@@ -351,7 +325,7 @@ constexpr IntType SwapIntBytes(IntType value) noexcept
         return (value >> 8) | (value << 8);
     }
 
-    if constexpr (size == 4) {           // On x86, this (and 64 bit version) is a single instruction! (At least, clang is smart enough to do that)
+    if constexpr (size == 4) {
         return ((value >> 24) & 0xFF) | ((value >> 8) & 0xFF00)
                | ((value << 8) & 0xFF0000) | ((value << 24) & 0xFF000000);
     }
@@ -364,7 +338,6 @@ constexpr IntType SwapIntBytes(IntType value) noexcept
                | ((value << 56) & 0xFF00000000000000);
     }
 
-    // Unreachable
     return value;
 }
 
