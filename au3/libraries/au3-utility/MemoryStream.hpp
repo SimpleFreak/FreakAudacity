@@ -2,13 +2,14 @@
 #define __AUDACITY_MEMORY_STREAM_HPP__
 
 #include "utility_api.hpp"
+#include "IteratorX.hpp"
 
 #include <array>
 #include <cstdint>
 #include <list>
 #include <vector>
 
-#include "IteratorX.hpp"
+/** Description of class MemoryStream. */
 
 /*!
  * @brief A low overhead memory stream with O(1) append, low heap fragmentation and a linear memory view.

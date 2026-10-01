@@ -1,0 +1,5 @@
+# ninja log v6
+37	443	8125408336635867	CMakeFiles/au3-utility.dir/D_/Programming/FreakAudacity/au3/libraries/au3-utility/Callable.cpp.obj	d458a9fadc530dc6
+451	556	8125408340755402	au3-utility.lib	73a33573cd7189af
+46	1698	8125408336722528	CMakeFiles/au3-utility_test.dir/CallableTest.cpp.obj	1c06e41748e0375d
+1700	1908	8125408353258161	au3-utility_test.exe	20586d969c7ee8bc
