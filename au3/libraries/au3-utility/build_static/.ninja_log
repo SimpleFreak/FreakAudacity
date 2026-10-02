@@ -1,0 +1,9 @@
+# ninja log v6
+46	211	8126684568758365	build.ninja	7e1e905235ce6899
+46	211	8126684568758365	D:/Programming/FreakAudacity/au3/libraries/au3-utility/build_static/cmake_install.cmake	7e1e905235ce6899
+27	451	8126684569709720	CMakeFiles/au3-utility.dir/Callable.cpp.obj	9300c9a060324ca0
+43	482	8126684569870389	CMakeFiles/au3-utility.dir/ModuleConstants.cpp.obj	f01e03d4d54af43c
+36	512	8126684569794886	CMakeFiles/au3-utility.dir/MemoryX.cpp.obj	2897343bb8b5a35a
+30	592	8126684569749786	CMakeFiles/au3-utility.dir/MemoryStream.cpp.obj	99d21a18082a031e
+592	724	8126684576576792	au3-utility.dll	69fa0a0cbd14521d
+592	724	8126684576576792	au3-utility.lib	69fa0a0cbd14521d

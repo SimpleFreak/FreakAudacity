@@ -14,6 +14,7 @@
 
 #include <functional>
 #include <limits>
+#include <atomic>
 
 #include <cstdlib>
 
@@ -28,15 +29,15 @@
 template<typename X>
 class ArrayOf : public std::unique_ptr<X[]> {
 public:
-    ArraysOf() {}
+    ArrayOf() {}
 
     template<typename Integral>
-    explicit ArraysOf(Integral N)
+    explicit ArrayOf(Integral N)
         : ArrayOf<ArrayOf<X> >(N)
     {}
 
     template<typename Integral1, typename Integral2 >
-    ArraysOf(Integral1 N, Integral2 M, bool initialize = false)
+    ArrayOf(Integral1 N, Integral2 M, bool initialize = false)
         : ArrayOf<ArrayOf<X> >(N) {
         static_assert(std::is_unsigned<Integral1>::value, "Unsigned arguments only");
         static_assert(std::is_unsigned<Integral2>::value, "Unsigned arguments only");
@@ -45,9 +46,9 @@ public:
         }
     }
 
-    /** ArraysOf(const ArraysOf&) = delete; */
-    ArraysOf(const ArraysOf&) = delete;
-    ArraysOf& operator=(ArraysOf&& that) {
+    /** ArrayOf(const ArraysOf&) = delete; */
+    ArrayOf(const ArrayOf&) = delete;
+    ArrayOf& operator=(ArrayOf&& that) {
         ArrayOf<ArrayOf<X> >::operator=(std::move(that));
         return *this;
     }
