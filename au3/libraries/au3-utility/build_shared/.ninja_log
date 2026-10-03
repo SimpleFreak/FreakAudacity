@@ -1,7 +1,8 @@
 # ninja log v6
-32	431	8126684649784113	CMakeFiles/au3-utility.dir/Callable.cpp.obj	cab087dc3974d6a4
-54	458	8126684649995042	CMakeFiles/au3-utility.dir/ModuleConstants.cpp.obj	2b921fbec1cc039
-49	507	8126684649955043	CMakeFiles/au3-utility.dir/MemoryX.cpp.obj	91a40a333d920236
-39	566	8126684649849238	CMakeFiles/au3-utility.dir/MemoryStream.cpp.obj	4c61bd9f8b655773
-566	646	8126684655806346	au3-utility.dll	69fa0a0cbd14521d
-566	646	8126684655806346	au3-utility.lib	69fa0a0cbd14521d
+136	679	8127565723947129	CMakeFiles/au3-utility.dir/MemoryX.cpp.obj	91a40a333d920236
+118	728	8127565723763460	CMakeFiles/au3-utility.dir/Callable.cpp.obj	cab087dc3974d6a4
+150	743	8127565724083630	CMakeFiles/au3-utility.dir/Observer.cpp.obj	d48b7639fe0dbcc8
+143	754	8127565724011201	CMakeFiles/au3-utility.dir/ModuleConstants.cpp.obj	2b921fbec1cc039
+128	839	8127565723863831	CMakeFiles/au3-utility.dir/MemoryStream.cpp.obj	4c61bd9f8b655773
+839	939	8127565731773450	au3-utility.dll	7b1785d56fd02e32
+839	939	8127565731773450	au3-utility.lib	7b1785d56fd02e32

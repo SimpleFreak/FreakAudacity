@@ -25,6 +25,7 @@ set(SOURCES
     MemoryStream.cpp
     MemoryX.cpp
     ModuleConstants.cpp
+    Observer.cpp
 )
 
 add_library(${PROJECT_NAME} SHARED ${HEADERS} ${SOURCES})
