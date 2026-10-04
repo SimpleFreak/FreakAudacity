@@ -17,6 +17,7 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 include_directories(D:/Qt/6.11.2/msvc2022_64/include)
 include_directories(D:/Qt/6.11.2/Src)
+include_directories(D:/LLVM/lib/clang/23/include)
 
 if (MSVC)
     # Now that the `audacity` target is defined, we can set it as the startup project in Visual Studio.

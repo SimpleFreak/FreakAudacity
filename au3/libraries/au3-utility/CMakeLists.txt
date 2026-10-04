@@ -17,6 +17,7 @@ set(HEADERS
     MemoryX.hpp
     ModuleConstants.hpp
     Observer.hpp
+    TypedAny.hpp
     utility_api.hpp
 )
 
@@ -26,6 +27,7 @@ set(SOURCES
     MemoryX.cpp
     ModuleConstants.cpp
     Observer.cpp
+    TypedAny.cpp
 )
 
 add_library(${PROJECT_NAME} SHARED ${HEADERS} ${SOURCES})
