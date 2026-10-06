@@ -18,6 +18,8 @@ set(HEADERS
     ModuleConstants.hpp
     Observer.hpp
     TypedAny.hpp
+    GlobalVariable.hpp
+    LockFreeQueue.hpp
     utility_api.hpp
 )
 
