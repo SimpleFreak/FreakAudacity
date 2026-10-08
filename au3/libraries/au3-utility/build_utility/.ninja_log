@@ -1,0 +1,9 @@
+# ninja log v6
+84	466	8131878199849912	CMakeFiles/au3-utility.dir/TypedAny.cpp.obj	621686e333b1267e
+72	480	8131878199729924	CMakeFiles/au3-utility.dir/ModuleConstants.cpp.obj	f06753c63a56c5c0
+48	481	8131878199497244	CMakeFiles/au3-utility.dir/Callable.cpp.obj	416a2eeec0a69226
+78	543	8131878199789937	CMakeFiles/au3-utility.dir/Observer.cpp.obj	f6bbc490fe83d60b
+65	559	8131878199667466	CMakeFiles/au3-utility.dir/MemoryX.cpp.obj	82bd723f63e95cb4
+58	584	8131878199587379	CMakeFiles/au3-utility.dir/MemoryStream.cpp.obj	45c0f08fce668496
+584	663	8131878205527697	au3-utility.dll	972d2fdd06d2749a
+584	663	8131878205527697	au3-utility.lib	972d2fdd06d2749a

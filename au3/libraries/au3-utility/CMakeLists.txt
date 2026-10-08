@@ -20,6 +20,7 @@ set(HEADERS
     TypedAny.hpp
     GlobalVariable.hpp
     LockFreeQueue.hpp
+    MessageBuffer.hpp
     utility_api.hpp
 )
 
