@@ -21,6 +21,7 @@ set(HEADERS
     GlobalVariable.hpp
     LockFreeQueue.hpp
     MessageBuffer.hpp
+    Variant.hpp
     utility_api.hpp
 )
 
@@ -31,6 +32,7 @@ set(SOURCES
     ModuleConstants.cpp
     Observer.cpp
     TypedAny.cpp
+    Variant.cpp
 )
 
 add_library(${PROJECT_NAME} SHARED ${HEADERS} ${SOURCES})

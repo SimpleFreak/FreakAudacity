@@ -121,6 +121,18 @@ build CMakeFiles/au3-utility.dir/TypedAny.cpp.obj: CXX_COMPILER__au3-utility_uns
   TARGET_PDB = au3-utility.pdb
   TARGET_SUPPORT_DIR = CMakeFiles\au3-utility.dir
 
+build CMakeFiles/au3-utility.dir/Variant.cpp.obj: CXX_COMPILER__au3-utility_unscanned_Release D$:/Programming/FreakAudacity/au3/libraries/au3-utility/Variant.cpp || cmake_object_order_depends_target_au3-utility
+  CONFIG = Release
+  DEFINES = -D_MBCS -D_WINDLL -Dau3_utility_EXPORTS
+  DEP_FILE = CMakeFiles\au3-utility.dir\Variant.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++17 -D_DLL -D_MT -Xclang --dependent-lib=msvcrt
+  INCLUDES = -ID:/Programming/FreakAudacity/au3/libraries/au3-utility/build_utility -ID:/Programming/FreakAudacity/au3/libraries/au3-utility
+  OBJECT_DIR = CMakeFiles\au3-utility.dir
+  OBJECT_FILE_DIR = CMakeFiles\au3-utility.dir
+  TARGET_COMPILE_PDB = CMakeFiles\au3-utility.dir\
+  TARGET_PDB = au3-utility.pdb
+  TARGET_SUPPORT_DIR = CMakeFiles\au3-utility.dir
+
 
 # =============================================================================
 # Link build statements for SHARED_LIBRARY target au3-utility
@@ -129,7 +141,7 @@ build CMakeFiles/au3-utility.dir/TypedAny.cpp.obj: CXX_COMPILER__au3-utility_uns
 #############################################
 # Link the shared library au3-utility.dll
 
-build au3-utility.dll au3-utility.lib: CXX_SHARED_LIBRARY_LINKER__au3-utility_Release CMakeFiles/au3-utility.dir/Callable.cpp.obj CMakeFiles/au3-utility.dir/MemoryStream.cpp.obj CMakeFiles/au3-utility.dir/MemoryX.cpp.obj CMakeFiles/au3-utility.dir/ModuleConstants.cpp.obj CMakeFiles/au3-utility.dir/Observer.cpp.obj CMakeFiles/au3-utility.dir/TypedAny.cpp.obj
+build au3-utility.dll au3-utility.lib: CXX_SHARED_LIBRARY_LINKER__au3-utility_Release CMakeFiles/au3-utility.dir/Callable.cpp.obj CMakeFiles/au3-utility.dir/MemoryStream.cpp.obj CMakeFiles/au3-utility.dir/MemoryX.cpp.obj CMakeFiles/au3-utility.dir/ModuleConstants.cpp.obj CMakeFiles/au3-utility.dir/Observer.cpp.obj CMakeFiles/au3-utility.dir/TypedAny.cpp.obj CMakeFiles/au3-utility.dir/Variant.cpp.obj
   CONFIG = Release
   LANGUAGE_COMPILE_FLAGS = -O3 -DNDEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrt
   LINK_FLAGS = -shared -fuse-ld=lld
